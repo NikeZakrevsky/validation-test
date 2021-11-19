@@ -3,6 +3,7 @@ package com.example.validatorschain.validators;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.Comparator;
 import java.util.List;
 
 @Component
@@ -17,6 +18,9 @@ public class ValidationManager {
     public List<Validator> getValidators(Class<?> clazz) {
         return validatorList.stream()
                 .filter(validator -> clazz.isAssignableFrom(validator.getClass()))
+                .sorted(
+                        Comparator.comparingInt(validator ->
+                                validator.getClass().getAnnotation(CustomValidator.class).priority()))
                 .toList();
     }
 }
