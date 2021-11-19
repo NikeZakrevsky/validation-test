@@ -1,11 +1,8 @@
 package com.example.validatorschain.validators;
 
-import org.springframework.stereotype.Component;
-
 import java.util.Collections;
 import java.util.List;
 
-@Component
 @CustomValidator(priority = 1)
 public class LengthValidator implements TextValidator {
 
