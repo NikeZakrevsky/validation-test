@@ -1,6 +1,5 @@
 package com.example.validatorschain.validators;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.Comparator;
@@ -15,12 +14,13 @@ public class ValidationManager {
         this.validatorList = validatorList;
     }
 
-    public List<Validator> getValidators(Class<?> clazz) {
+    public <T> List<T> getValidators(Class<T> clazz) {
         return validatorList.stream()
                 .filter(validator -> clazz.isAssignableFrom(validator.getClass()))
                 .sorted(
                         Comparator.comparingInt(validator ->
                                 validator.getClass().getAnnotation(CustomValidator.class).priority()))
+                .map(validator -> ((T) validator))
                 .toList();
     }
 }
